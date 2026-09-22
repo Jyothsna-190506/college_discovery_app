@@ -1,14 +1,16 @@
-const router = require("express").Router();
-const User = require("../models/User");
+const express = require("express");
+const router = express.Router();
+const {
+  toggleFavorite,
+  getFavorites,
+  saveComparison,
+  getSavedComparisons,
+} = require("../controllers/userController");
+const { protect } = require("../middleware/authMiddleware");
 
-// Add to favorites
-router.post("/favorite", async (req, res) => {
-  const { userId, collegeId } = req.body;
+router.post("/favorites/toggle", protect, toggleFavorite);
+router.get("/favorites", protect, getFavorites);
+router.post("/comparisons", protect, saveComparison);
+router.get("/comparisons", protect, getSavedComparisons);
 
-  const user = await User.findById(userId);
-  user.favorites.push(collegeId);
-  await user.save();
-
-  res.json(user);
-});
 module.exports = router;

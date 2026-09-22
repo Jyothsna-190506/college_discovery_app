@@ -1,24 +1,30 @@
-const router = require("express").Router();
-const College = require("../models/College");
+const express = require("express");
+const router = express.Router();
+const {
+  getColleges,
+  getCollegeById,
+  createCollege,
+  updateCollege,
+  deleteCollege,
+  predictColleges,
+  getCollegeStats,
+} = require("../controllers/collegeController");
+const { protect, authorize } = require("../middleware/authMiddleware");
 
-// Get all colleges
-router.get("/", async (req, res) => {
-  const colleges = await College.find();
-  res.json(colleges);
-});
+// Stats & Predictor endpoints (placed before /:id)
+router.get("/stats/summary", getCollegeStats);
+router.post("/predict", predictColleges);
 
-// Add college
-router.post("/", async (req, res) => {
-  const college = await College.create(req.body);
-  res.json(college);
-});
-// Get single college by ID
-router.get("/:id", async (req, res) => {
-  try {
-    const college = await College.findById(req.params.id);
-    res.json(college);
-  } catch (err) {
-    res.status(500).json("Error fetching college");
-  }
-});
+// Main CRUD endpoints
+router
+  .route("/")
+  .get(getColleges)
+  .post(protect, authorize("admin"), createCollege);
+
+router
+  .route("/:id")
+  .get(getCollegeById)
+  .put(protect, authorize("admin"), updateCollege)
+  .delete(protect, authorize("admin"), deleteCollege);
+
 module.exports = router;

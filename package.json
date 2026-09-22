@@ -1,0 +1,25 @@
+{
+  "name": "college-discovery-app",
+  "version": "1.0.0",
+  "description": "Professional College Discovery, Prediction, and Comparison Platform",
+  "scripts": {
+    "start": "cd backend && npm start",
+    "backend": "cd backend && npm start",
+    "frontend": "cd frontend && npm start",
+    "seed": "cd backend && npm run seed",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "test:backend": "node backend/test_api.js"
+  },
+  "keywords": [
+    "college",
+    "admission",
+    "jee",
+    "predictor",
+    "react",
+    "node",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC"
+}
